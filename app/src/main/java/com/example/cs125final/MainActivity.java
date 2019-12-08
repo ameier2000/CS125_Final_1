@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private int phase = 0;
     private Integer prevBet = 0;
     private Integer prevRaise = 0;
-    private boolean gameon = true;
+    private int firstplayer = 1;
     // code for last action 1 = bet; 2 = call; 3 = raise; 4 = check; 5 = fold;
     // Big blind 250 small 125, open to change
     // use .clear to clear edittext
@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
         Button check = findViewById(R.id.checkButton);
         Button call = findViewById(R.id.callButton);
         Button fold = findViewById(R.id.foldButton);
-        Button restart = findViewById(R.id.startoverButton);
+        Button pOne = findViewById(R.id.playerOneWinner);
+        Button pTwo = findViewById(R.id.playerTwoWinner);
         raise.setVisibility(View.INVISIBLE);
         call.setVisibility(View.INVISIBLE);
         TextView potval = findViewById(R.id.potVal);
@@ -50,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
         TextView questions = findViewById(R.id.questions);
         questions.setText("Bet (Min: 250)   Raise (Min: " + prevBet.toString() + ")");
         EditText input = findViewById(R.id.userInput);
+        pot = 500;
+        playerOneSum -= 250;
+        playerTwoSum -= 250;
+        updateValues(turn);
         bet.setOnClickListener(v -> {
             if(input.getText().toString().isEmpty()) {
                 questions.setText("    Inproper Value go again");
@@ -117,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
             check.setVisibility(View.INVISIBLE);
         });
         check.setOnClickListener(v -> {
+            boolean regular = true;
 
             if (turn == 1) {
                 playerOneLast = 4;
@@ -125,7 +131,17 @@ public class MainActivity extends AppCompatActivity {
                     playerOneLast = 0;
                     phase++;
                     if (phase > 3) {
+
                         // showdown
+                        raise.setVisibility(View.INVISIBLE);
+                        call.setVisibility(View.INVISIBLE);
+                        bet.setVisibility(View.INVISIBLE);
+                        check.setVisibility(View.INVISIBLE);
+                        fold.setVisibility(View.INVISIBLE);
+                        pOne.setVisibility(View.VISIBLE);
+                        pTwo.setVisibility(View.VISIBLE);
+                        regular = false;
+
                     }
                 }
                 turn = 2;
@@ -137,15 +153,25 @@ public class MainActivity extends AppCompatActivity {
                     phase++;
                     if (phase > 3) {
                         //showdown
+                        raise.setVisibility(View.INVISIBLE);
+                        call.setVisibility(View.INVISIBLE);
+                        bet.setVisibility(View.INVISIBLE);
+                        check.setVisibility(View.INVISIBLE);
+                        fold.setVisibility(View.INVISIBLE);
+                        pOne.setVisibility(View.VISIBLE);
+                        pTwo.setVisibility(View.VISIBLE);
+                        regular = false;
                     }
                 }
                 turn = 1;
             }
             updateValues(turn);
-            raise.setVisibility(View.INVISIBLE);
-            call.setVisibility(View.INVISIBLE);
-            bet.setVisibility(View.VISIBLE);
-            check.setVisibility(View.VISIBLE);
+            if (regular) {
+                raise.setVisibility(View.INVISIBLE);
+                call.setVisibility(View.INVISIBLE);
+                bet.setVisibility(View.VISIBLE);
+                check.setVisibility(View.VISIBLE);
+            }
         });
         call.setOnClickListener(v -> {
 
@@ -155,12 +181,33 @@ public class MainActivity extends AppCompatActivity {
                 pot += prevBet;
                 playerOneSum -= prevBet;
                 prevBet = 0;
-                phase
+                phase++;
+                if (phase > 3) {
+                    raise.setVisibility(View.INVISIBLE);
+                    call.setVisibility(View.INVISIBLE);
+                    bet.setVisibility(View.INVISIBLE);
+                    check.setVisibility(View.INVISIBLE);
+                    fold.setVisibility(View.INVISIBLE);
+                    pOne.setVisibility(View.VISIBLE);
+                    pTwo.setVisibility(View.VISIBLE);
+                    return;
+                }
                 turn = 2;
             } else {
                 pot += prevBet;
                 playerTwoSum -= prevBet;
                 prevBet = 0;
+                phase++;
+                if (phase > 3) {
+                    raise.setVisibility(View.INVISIBLE);
+                    call.setVisibility(View.INVISIBLE);
+                    bet.setVisibility(View.INVISIBLE);
+                    check.setVisibility(View.INVISIBLE);
+                    fold.setVisibility(View.INVISIBLE);
+                    pOne.setVisibility(View.VISIBLE);
+                    pTwo.setVisibility(View.VISIBLE);
+                    return;
+                }
                 turn = 1;
             }
             updateValues(turn);
@@ -180,95 +227,121 @@ public class MainActivity extends AppCompatActivity {
                 pot = 0;
                 turn = 1;
             }
-            updateValues(turn);
+            phase = 0;
+            if (playerOneSum < 250) {
+                raise.setVisibility(View.INVISIBLE);
+                call.setVisibility(View.INVISIBLE);
+                bet.setVisibility(View.INVISIBLE);
+                check.setVisibility(View.INVISIBLE);
+                fold.setVisibility(View.INVISIBLE);
+                pOne.setVisibility(View.INVISIBLE);
+                pTwo.setVisibility(View.INVISIBLE);
+                questions.setText("Congratulations Player 2, You Are The Winner");
+                playinfo.setVisibility(View.INVISIBLE);
+                return;
+            }
+            if (playerTwoSum < 250) {
+                raise.setVisibility(View.INVISIBLE);
+                call.setVisibility(View.INVISIBLE);
+                bet.setVisibility(View.INVISIBLE);
+                check.setVisibility(View.INVISIBLE);
+                fold.setVisibility(View.INVISIBLE);
+                pOne.setVisibility(View.INVISIBLE);
+                pTwo.setVisibility(View.INVISIBLE);
+                questions.setText("Congratulations Player 1, You Are The Winner");
+                playinfo.setVisibility(View.INVISIBLE);
+                return;
+            }
             raise.setVisibility(View.INVISIBLE);
             call.setVisibility(View.INVISIBLE);
             bet.setVisibility(View.VISIBLE);
             check.setVisibility(View.VISIBLE);
+            if (firstplayer == 1) {
+                firstplayer = 2;
+                turn = 2;
+            } else {
+                firstplayer = 1;
+                turn = 1;
+            }
+            pot = 500;
+            playerOneSum -= 250;
+            playerTwoSum -= 250;
+            updateValues(turn);
         });
-        restart.setOnClickListener(v -> {
-            System.out.println(" was pressed");
-        });
-        //playRound();
-    }
-    private void playRound() {
-        if (playerdealer == 1) {
-            if(playerOneLast == 0 && playerTwoLast == 0) {
-                takeAction(2, true, false, true, false);
-            }
-
-        } else {
-            if(playerOneLast == 0 && playerTwoLast == 0) {
-                takeAction(1, true, false, true, false);
-            }
-        }
-
-        boolean contin = true;
-        if (playerdealer == 1) {
-            while (contin) {
-                if (turn == 2) {
-                    if (playerOneLast == 1) {
-                        takeAction(2, false, true, false, true);
-                    }
-                    if (playerOneLast == 2) {
-                        contin = false;
-                    }
-                    if (playerOneLast == 3) {
-                        takeAction(2,false,true,false,true);
-                    }
-                    if (playerOneLast == 4) {
-                        if (playerTwoLast == 4) {
-                            contin = false;
-                        }
-                        takeAction(2, true, false, true, false);
-                    }
-                }
-                if (turn == 1) {
-                    if (playerTwoLast == 1) {
-                        takeAction(1, false, true, false, true);
-                    }
-                    if (playerTwoLast == 2) {
-                        contin = false;
-                    }
-                    if (playerTwoLast == 3) {
-                        takeAction(1,false,true,false,true);
-                    }
-                    if (playerTwoLast == 4) {
-                        if (playerOneLast == 4) {
-                            contin = false;
-                        }
-                        takeAction(1, true, false, true, false);
-                    }
-                }
-                //run code that starts with player 2;
-                //pass back to player 1;
-                //check if state is satisfied;
-            }
-        }
-    }
-    private void roundEnd(int winner, int pot) {
-        phase = 0;
-        if (winner == 1) {
+        pOne.setOnClickListener(v -> {
             playerOneSum += pot;
-        }
-        else {
+            pot = 0;
+            updateValues(turn);
+            phase = 0;
+            if (playerTwoSum < 250) {
+                raise.setVisibility(View.INVISIBLE);
+                call.setVisibility(View.INVISIBLE);
+                bet.setVisibility(View.INVISIBLE);
+                check.setVisibility(View.INVISIBLE);
+                fold.setVisibility(View.INVISIBLE);
+                pOne.setVisibility(View.INVISIBLE);
+                pTwo.setVisibility(View.INVISIBLE);
+                questions.setText("Congratulations Player 1, You Are The Winner");
+                playinfo.setVisibility(View.INVISIBLE);
+                return;
+            }
+            raise.setVisibility(View.INVISIBLE);
+            call.setVisibility(View.INVISIBLE);
+            bet.setVisibility(View.VISIBLE);
+            check.setVisibility(View.VISIBLE);
+            fold.setVisibility(View.VISIBLE);
+            pOne.setVisibility(View.INVISIBLE);
+            pTwo.setVisibility(View.INVISIBLE);
+            pot = 500;
+            playerOneSum -= 250;
+            playerTwoSum -= 250;
+            if (firstplayer == 1) {
+                firstplayer = 2;
+                turn = 2;
+            } else {
+                firstplayer = 1;
+                turn = 1;
+            }
+            updateValues(turn);
+        });
+        pTwo.setOnClickListener(v -> {
             playerTwoSum += pot;
-        }
-        // if showdown special case
-        if (playerdealer == 1) {
-            playerdealer = 2;
-        }
-        else {
-            playerdealer = 1;
-        }
-        if (playerOneSum == 0) {
-            // end game;
-        }
-        if (playerTwoSum == 0) {
-            // end game;
-        }
-        //call playRound
+            updateValues(turn);
+            phase = 0;
+            pot = 0;
+            if (playerOneSum < 250) {
+                raise.setVisibility(View.INVISIBLE);
+                call.setVisibility(View.INVISIBLE);
+                bet.setVisibility(View.INVISIBLE);
+                check.setVisibility(View.INVISIBLE);
+                fold.setVisibility(View.INVISIBLE);
+                pOne.setVisibility(View.INVISIBLE);
+                pTwo.setVisibility(View.INVISIBLE);
+                questions.setText("Congratulations Player 2, You Are The Winner");
+                playinfo.setVisibility(View.INVISIBLE);
+                return;
+            }
+            raise.setVisibility(View.INVISIBLE);
+            call.setVisibility(View.INVISIBLE);
+            bet.setVisibility(View.VISIBLE);
+            check.setVisibility(View.VISIBLE);
+            fold.setVisibility(View.VISIBLE);
+            pOne.setVisibility(View.INVISIBLE);
+            pTwo.setVisibility(View.INVISIBLE);
+            pot = 500;
+            playerOneSum -= 250;
+            playerTwoSum -= 250;
+            if (firstplayer == 1) {
+                firstplayer = 2;
+                turn = 2;
+            } else {
+                firstplayer = 1;
+                turn = 1;
+            }
+            updateValues(turn);
+        });
     }
+
     private void updateValues(int turn) {
          if (turn == 1) {
              TextView playerinfo = findViewById(R.id.playerInfo);
@@ -286,87 +359,7 @@ public class MainActivity extends AppCompatActivity {
         questions.setText("Bet (Min: 250)   Raise (Min: " + prevBet.toString() + ")");
 
     }
-    private void takeAction(int turn, boolean bet, boolean raise, boolean check, boolean call) {
-        TextView questions = findViewById(R.id.questions);
-        if (turn == 2) {
-            questions.setText("Player Two Take Your Action.");
-        } else {
-            questions.setText("Player One Take Your Action.");
-        }
 
-        if (bet == false) {
-            Button betb = findViewById(R.id.betButton);
-            betb.setVisibility(View.INVISIBLE);
-        } else {
-            Button betb = findViewById(R.id.betButton);
-            betb.setVisibility(View.VISIBLE);
-        }
-        if (raise == false) {
-            Button raiseb = findViewById(R.id.raiseButton);
-            raiseb.setVisibility(View.INVISIBLE);
-        } else {
-            Button raiseb = findViewById(R.id.raiseButton);
-            raiseb.setVisibility(View.INVISIBLE);
-        }
-        if (check == false) {
-            Button checkb = findViewById(R.id.checkButton);
-            checkb.setVisibility(View.INVISIBLE);
-        } else {
-            Button checkb = findViewById(R.id.checkButton);
-            checkb.setVisibility(View.INVISIBLE);
-        }
-        if (call == false) {
-            Button callb = findViewById(R.id.callButton);
-            callb.setVisibility(View.INVISIBLE);
-        } else {
-            Button callb = findViewById(R.id.callButton);
-            callb.setVisibility(View.VISIBLE);
-        }
-        Button betb = findViewById(R.id.betButton);
-        Button raiseb = findViewById(R.id.raiseButton);
-        Button checkb = findViewById(R.id.checkButton);
-        Button callb = findViewById(R.id.callButton);
-        Button foldb = findViewById(R.id.foldButton);
-        boolean stuck = true;
-        while (stuck) {
-            betb.setOnClickListener(v -> {
-                System.out.println("bet/call was pressed");
-                return;
-            });
-            raiseb.setOnClickListener(v -> {
-                System.out.println("raise was pressed");
-                return;
-            });
-            checkb.setOnClickListener(v -> {
-                if (turn == 2) {
-                    playerTwoLast = 4;
-                    return;
-                } else {
-                    playerOneLast = 4;
-                    return;
-                }
-            });
-            callb.setOnClickListener(v -> {
-                if (turn == 2) {
-                    playerTwoSum -= prevBet;
-                    pot += prevBet;
-                    prevBet = 0;
-                    phase++;
-                    return;
-                }
-            });
-            foldb.setOnClickListener(v -> {
-                int winner = 0;
-                if (turn == 2) {
-                    winner = 1;
-                } else {
-                    winner = 2;
-                }
-                roundEnd(winner, pot);
-                return;
-            });
-        }
-    }
     private void getName() {
 
     }

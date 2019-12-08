@@ -99,6 +99,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Call" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <Button
+                    android:id="@+id/foldButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fold" />
             </TableRow>
 
             <TableRow
@@ -106,17 +118,20 @@
                 android:layout_height="match_parent">
 
                 <Button
-                    android:id="@+id/foldButton"
+                    android:id="@+id/playerOneWinner"
                     android:layout_width="205dp"
                     android:layout_height="wrap_content"
-                    android:text="Fold" />
+                    android:text="Player 1 Name"
+                    android:visibility="invisible" />
 
                 <Button
-                    android:id="@+id/startoverButton"
+                    android:id="@+id/playerTwoWinner"
                     android:layout_width="205dp"
                     android:layout_height="wrap_content"
-                    android:text="Start Over" />
+                    android:text="Player 2 Name"
+                    android:visibility="invisible" />
             </TableRow>
+
         </LinearLayout>
     </ScrollView>
 
