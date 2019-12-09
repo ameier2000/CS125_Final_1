@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 turn = 2;
             } else {
-                playerOneLast = 4;
+                playerTwoLast = 4;
                 if (playerOneLast == 4) {
                     playerOneLast = 0;
                     playerTwoLast = 0;
@@ -358,11 +358,11 @@ public class MainActivity extends AppCompatActivity {
 
          if (turn == 1) {
              TextView playerinfo = findViewById(R.id.playerInfo);
-             playerinfo.setText("                      Player 1's Turn");
+             playerinfo.setText("                  Phase " + phase + "   Player 1's Turn");
          }
          else {
              TextView playerinfo = findViewById(R.id.playerInfo);
-             playerinfo.setText("                      Player 2's Turn");
+             playerinfo.setText("                   Phase " + phase + "  Player 2's Turn");
          }
 
          doInBackground();
