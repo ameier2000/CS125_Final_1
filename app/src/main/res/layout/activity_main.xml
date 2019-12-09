@@ -36,16 +36,23 @@
                 <EditText
                     android:id="@+id/userInput"
                     android:layout_width="match_parent"
-                    android:layout_height="111dp"
+                    android:layout_height="80dp"
                     android:ems="10"
                     android:inputType="number" />
 
                 <TextView
                     android:id="@+id/playerInfo"
                     android:layout_width="match_parent"
-                    android:layout_height="146dp"
+                    android:layout_height="75dp"
                     android:text="playerInfo"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:id="@+id/chuckNorris"
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:text="Chuck Norris Fact:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <TextView
                     android:id="@+id/currentPlayerVal"
@@ -121,14 +128,14 @@
                     android:id="@+id/playerOneWinner"
                     android:layout_width="205dp"
                     android:layout_height="wrap_content"
-                    android:text="Player 1 Name"
+                    android:text="Player 1 Won"
                     android:visibility="invisible" />
 
                 <Button
                     android:id="@+id/playerTwoWinner"
                     android:layout_width="205dp"
                     android:layout_height="wrap_content"
-                    android:text="Player 2 Name"
+                    android:text="Player 2 Won"
                     android:visibility="invisible" />
             </TableRow>
 

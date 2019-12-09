@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':VolleyLibrary'
 rootProject.name='CS125 Final'
