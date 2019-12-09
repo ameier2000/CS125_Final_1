@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         updateValues(turn);
         bet.setOnClickListener(v -> {
             if(input.getText().toString().isEmpty()) {
-                questions.setText("    Inproper Value go again");
+                questions.setText("            Improper Value Go Again");
                 return;
             }
             prevBet = Integer.parseInt(input.getText().toString());
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             inputMan.hideSoftInputFromWindow(input.getWindowToken(), 0);
             if (prevBet == null || prevBet < 250 || prevBet > playerTwoSum || prevBet > playerOneSum) {
                 prevBet = 0;
-                questions.setText("    Inproper Value go again");
+                questions.setText("             Improper Value go Again");
                 return;
             }
 
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         });
         raise.setOnClickListener(v -> {
             if(input.getText().toString().isEmpty()) {
-                questions.setText("    Inproper Value go again");
+                questions.setText("           Improper Value Go Again");
                 return;
             }
             prevRaise = Integer.parseInt(input.getText().toString());
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             inputMan.hideSoftInputFromWindow(input.getWindowToken(), 0);
             if (prevRaise == null || prevRaise <  prevBet || prevRaise > playerTwoSum || prevRaise > playerOneSum) {
                 prevRaise = 0;
-                questions.setText("    Inproper Value go again");
+                questions.setText("           Improper Value Go Again");
                 return;
             }
 
@@ -358,34 +358,34 @@ public class MainActivity extends AppCompatActivity {
 
          if (turn == 1) {
              TextView playerinfo = findViewById(R.id.playerInfo);
-             playerinfo.setText("                  Player 1's Turn");
+             playerinfo.setText("                      Player 1's Turn");
          }
          else {
              TextView playerinfo = findViewById(R.id.playerInfo);
-             playerinfo.setText("                  Player 2's Turn");
+             playerinfo.setText("                      Player 2's Turn");
          }
 
          doInBackground();
          TextView playerval = findViewById(R.id.currentPlayerVal);
-         playerval.setText("     P1 $" + playerOneSum.toString() + "         P2 $" + playerTwoSum.toString());
+         playerval.setText("                      P1 $" + playerOneSum.toString() + "         P2 $" + playerTwoSum.toString());
          TextView potval = findViewById(R.id.potVal);
          potval.setText("       Pot: " + pot.toString());
          TextView questions = findViewById(R.id.questions);
-         questions.setText("Bet (Min: 250)   Raise (Min: " + prevBet.toString() + ")");
+         questions.setText("          Bet (Min: 250)   Raise (Min: " + prevBet.toString() + ")");
 
     }
     public void doInBackground() {
         TextView c = findViewById(R.id.chuckNorris);
-        c.setText("Getting new fact...");
+        c.setText("Getting new quote...");
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://api.chucknorris.io/jokes/random";
+        String url = "https://api.kanye.rest";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            String joke = response.getString("value");
-                            c.setText(joke);
+                            String joke = response.getString("quote");
+                            c.setText(joke + " - Kanye West");
                         } catch (Exception e) {
                             c.setText(e.toString());
                         }

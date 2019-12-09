@@ -43,14 +43,14 @@
                 <TextView
                     android:id="@+id/playerInfo"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
+                    android:layout_height="45dp"
                     android:text="playerInfo"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <TextView
                     android:id="@+id/chuckNorris"
                     android:layout_width="match_parent"
-                    android:layout_height="68dp"
+                    android:layout_height="95dp"
                     android:text="Chuck Norris Fact:"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
