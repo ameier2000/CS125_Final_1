@@ -2,19 +2,12 @@ package com.example.cs125final;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
 
 
 import com.android.volley.Request;
@@ -22,29 +15,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
-import org.json.JSONException;
+
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLConnection;
-import java.nio.charset.Charset;
-import java.util.Scanner;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import static java.net.Proxy.Type.HTTP;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -398,17 +373,6 @@ public class MainActivity extends AppCompatActivity {
          TextView questions = findViewById(R.id.questions);
          questions.setText("Bet (Min: 250)   Raise (Min: " + prevBet.toString() + ")");
 
-    }
-    private String facttime() throws Exception {
-        URL url = new URL("https://api.chucknorris.io/jokes/random");
-        URLConnection con = url.openConnection();
-        con.connect();
-
-        JsonParser jp = new JsonParser(); //from gson
-        JsonElement root = jp.parse(new InputStreamReader((InputStream) con.getContent())); //Convert the input stream to a json element
-        JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object.
-        String joke = rootobj.get("value").getAsString();
-        return joke;
     }
     public void doInBackground() {
         TextView c = findViewById(R.id.chuckNorris);
